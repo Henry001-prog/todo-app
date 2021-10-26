@@ -1,6 +1,7 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
+import '../components/template/custom.css';
 
 import Todo from '../components/todo';
 //import About from '../about';

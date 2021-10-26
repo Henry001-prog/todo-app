@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { Container } from './styles';
+
 function toCssClass(numbers) {
     const cols = numbers ? numbers.split(' ') : [];
     let classes = '';
@@ -17,15 +19,8 @@ export default function Grid({cols, children}) {
     const gridClass = toCssClass(cols || 12)
 
     return (
-        <div className={gridClass} 
-            style={
-                {
-                    display: 'flex', 
-                    marginRight: 35, 
-                    marginTop: 30
-                }
-            }>
+        <Container className={gridClass}>
             {children}
-        </div>
+        </Container>
     );
 }

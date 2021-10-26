@@ -13,12 +13,12 @@ export default function Menu() {
                 </div>
                 
                 
-                <ul className='nav'>
+                <ul className='nav' style={{paddingRight: 50}}>
                     <li className='nav-item'>
-                        <Link className='nav-link navbar-brand' to='/todos'>Tarefas</Link>
+                        <Link className='nav-link navbar-brand' to='/todos' style={{paddingLeft: 0}}>Tarefas</Link>
                     </li>
-                    <li className='nav-item'>
-                        <Link className='nav-link navbar-brand' to='/about'>Sobre</Link>
+                    <li className='nav-item' style={{paddingRight: 50}}>
+                        <Link className='nav-link navbar-brand' to='/about' style={{paddingLeft: 0}}>Sobre</Link>
                     </li>
                 </ul>
             </div>

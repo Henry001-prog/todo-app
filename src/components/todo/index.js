@@ -34,10 +34,11 @@ export default function Todo() {
         setDescription('');
     }, []);*/
 
-    const refresh = useCallback(async() => {
+    const refresh = useCallback(async (description = '') => {
         try {
-            const response = await api.get(`/todos?sort=-createdAt`);
-            setDescription('');
+            const search = description ? `&description__regex=/${description}/` : '';
+            const response = await api.get(`/todos?sort=-createdAt${search}`);
+            setDescription(description);
             setList(response.data);
         } catch (error) {
             alert("Não foi possível carregar os dados!");
@@ -65,11 +66,33 @@ export default function Todo() {
         try {
             await api.delete(`/todos/${todo._id}`)
             //clean();
-            refresh();
+            refresh(description);
         } catch (error) {
             alert("Não foi possível deletar o item!");
             return;
         }
+    }
+
+    async function handleMarkAsDone(todo) {
+        await api.put(`/todos/${todo._id}`, { ...todo, done: true });
+        refresh(description);
+    }
+
+    async function handleMarkAsPending(todo) {
+        await api.put(`/todos/${todo._id}`, { ...todo, done: false });
+        refresh(description);
+    }
+
+    function handleSearch() {
+        refresh(description);
+    }
+    
+    function handleClear() {
+        refresh();
+    }
+
+    function capitalize(string){
+        return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
     return (
@@ -77,13 +100,17 @@ export default function Todo() {
             <br/>
             <PageHeader name='Tarefas' small='Cadastro' />
             <TodoForm 
-                description={description}
-                handleAdd={handleAdd} 
+                description={capitalize(description)}
                 handleChange={handleChange}
+                handleAdd={handleAdd} 
+                handleSearch={handleSearch}
+                handleClear={handleClear}
             />
             <TodoList 
                 list={list} 
-                handleRemove={handleRemove} 
+                handleMarkAsDone={handleMarkAsDone}
+                handleMarkAsPending={handleMarkAsPending}
+                handleRemove={handleRemove}
             />
         </div>
     );
