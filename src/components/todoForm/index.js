@@ -5,7 +5,7 @@ import IconButton from '../template/iconButton';
 import { GridContainer, Input } from './styles';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { changeDescription, search, add } from '../../store/actions/todoActions';
+import { changeDescription, search, add, clear } from '../../store/actions/todoActions';
 
 export default function TodoForm(props) {
 
@@ -20,8 +20,12 @@ export default function TodoForm(props) {
         if (e.key === 'Enter') {
             e.shiftKey ? dispatch(search()) : dispatch(add(description));
         } else if (e.key === 'Escape') {
-            props.handleClear();
+            dispatch(clear());
         }
+    }
+
+    function capitalize(string){
+        return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
     return (
@@ -31,7 +35,7 @@ export default function TodoForm(props) {
                     placeholder='Adicione uma tarefa'
                     onChange={event => dispatch(changeDescription(event))} 
                     onKeyUp={keyHandler}
-                    value={description}
+                    value={capitalize(description)}
                 />
             </Grid>
 
@@ -41,7 +45,7 @@ export default function TodoForm(props) {
                 <IconButton styles='info' style={{color: 'white'}} icon='search'
                     onClick={() => dispatch(search())}></IconButton>
                 <IconButton styles='default' style={{backgroundColor: 'lightgray'}} icon='close'
-                    onClick={props.handleClear}></IconButton>
+                    onClick={() => dispatch(clear())}></IconButton>
             </Grid>
         </GridContainer>
     );

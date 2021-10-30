@@ -1,15 +1,13 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import IconButton from '../template/iconButton';
 
-import { useSelector } from 'react-redux';
+import { markAsDone, markAsPending, remove } from '../../store/actions/todoActions';
+import { useSelector, useDispatch } from 'react-redux';
 
 export default function TodoList(props) {
 
     const list = useSelector(state => state.todo.list);
-
-    /*useEffect(() => {
-        
-    }, []);*/
+    const dispatch = useDispatch();
 
     const renderRows = () => {
         //const list = props.list || [];
@@ -19,11 +17,11 @@ export default function TodoList(props) {
                     <td className={todo.done ? 'markedAsDone' : ''}>{todo.description}</td>
                     <td>
                         <IconButton styles='success' icon='check' hide={todo.done}
-                            onClick={() => props.handleMarkAsDone(todo)}></IconButton>
+                            onClick={() => dispatch(markAsDone(todo))}></IconButton>
                         <IconButton styles='warning' icon='undo' hide={!todo.done}
-                            onClick={() => props.handleMarkAsPending(todo)}></IconButton>
+                            onClick={() => dispatch(markAsPending(todo))}></IconButton>
                         <IconButton styles='danger' icon='trash-o' hide={!todo.done}
-                            onClick={() => props.handleRemove(todo)}></IconButton>
+                            onClick={() => dispatch(remove(todo))}></IconButton>
                     </td>
                 </tr>
             ))
